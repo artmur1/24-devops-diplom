@@ -230,7 +230,17 @@ https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/customizin
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-2.png)
 
-Далее занялся деплоем и настройкой в кластере atlantis.
+Далее занялся деплоем и настройкой в кластере atlantis. Настройку производил по следующей документации:
+
+https://www.runatlantis.io/docs/installation-guide.html
+
+Пользователя в github использвал текущего. На сайте https://www.browserling.com/tools/random-string сгенерировал Webhook Secret. Далее перешел в Deployment. Начал с выполнения инструкции Kubernetes Helm Chart. Отредактировал values.yaml. Внес свои данные user, token, secret, orgAllowlist. Остальные настройки в values.yaml оставил без изменеий:
+
+
+
+
+
+
 
 ---
 ### Установка и настройка CI/CD
