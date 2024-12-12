@@ -52,7 +52,21 @@
 
 ### Решение. Создание облачной инфраструктуры
 
+Конфигурация терраформ для создания инфраструктуры. Бакет в ЯО.
 
+provider.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/provider.tf
+
+bucket.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/bucket.tf
+
+infrastructure.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/infrastructure.tf
+
+service_account.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/service_account.tf
+
+locals.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/locals.tf
+
+variables.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/variables.tf
+
+Стейт файл - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/images/kitten1.jpg
 
 ---
 ### Создание Kubernetes кластера
@@ -74,6 +88,65 @@
 1. Работоспособный Kubernetes кластер.
 2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
 3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
+
+### Решение. Создание Kubernetes кластера
+
+Через терраформ в ЯО создал 3 ВМ на Ubuntu 24.04.
+
+k8s_cluster.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/k8s_cluster.tf
+
+meta.yml - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/meta.yml
+
+Задеплоил Kubernetes на подготовленные ранее инстансы с помощью Kubespray. В git у Kubespray появилась новая ветка, делал с переключением на нее, а затем снова в main, чтобы запустить ансибл. Также указал версию кубернетес для установки 1.29.0, т.к. по умолчанию в Kubespray указана 1.21.0. Но в процессе дальнейшего изучения на сайте Oracle узнал, что лучше ставить на Ubuntu 24.04 версию 1.31.1.
+
+Команды для установки Kubespray:
+
+    sudo apt update
+    sudo apt install git python3 python3-pip -y
+    git clone https://github.com/kubernetes-sigs/kubespray
+    cd kubespray
+    git checkout release-2.17
+    https://linuxcapable.com/install-python-3-12-on-ubuntu-linux/ - установка python3.12-venv в ubuntu 20.04
+    sudo apt install python3.12-venv - создаем виртуальное окружение
+    
+    python3 -m venv .venv
+    source .venv/bin/activate
+    
+    python3 -m pip install -r requirements.txt
+    cp -rfp inventory/sample inventory/mycluster
+    declare -a IPS=(192.168.20.13 192.168.20.11 192.168.20.36) - задаем воркер ноды в кластер
+    
+    pip3 install ruamel.yaml
+    CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+    nano inventory/mycluster/hosts.yaml
+    nano inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml - указать устанавливаемую версию kubernetes
+    
+    git checkout master
+    python3 -m pip install -r requirements.txt
+    ansible-playbook -i inventory/mycluster/hosts.yaml cluster.yml -b -v &
+    
+    mkdir -p $HOME/.kube
+    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    
+    kubectl get nodes
+    kubectl get pods --all-namespaces
+
+Файл hosts.yaml:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-k8s-1-1.png)
+
+Указал версию k8s в файлеk8s-cluster.yml:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-k8s-1-2.png)
+
+файл `~/.kube/config`:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-k8s-1-4.png)
+
+После выполнения данных команд Кубернетес был установлен. Кластер работает. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-k8s-1-3.png)
 
 ---
 ### Создание тестового приложения
