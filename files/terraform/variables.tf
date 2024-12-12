@@ -22,7 +22,7 @@ variable "vm_resources" {
   default      = {
     nat_res = {
       cores = 2
-      memory = 4
+      memory = 8
       core_fraction = 20
       disk_size = 50
     }
