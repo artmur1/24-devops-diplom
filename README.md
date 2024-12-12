@@ -202,6 +202,29 @@ Dockerfile - https://github.com/artmur1/24-nginx/blob/main/Dockerfile
 2. Http доступ на 80 порту к web интерфейсу grafana.
 3. Дашборды в grafana отображающие состояние Kubernetes кластера.
 4. Http доступ на 80 порту к тестовому приложению.
+
+### Решение. Подготовка cистемы мониторинга и деплой приложения
+
+Для установки пакета kube-prometheus, включающего в себя Kubernetes оператор для grafana, prometheus, alertmanager, node_exporter, воспользовался следующей документацией:
+
+https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/customizing.md
+
+Установку призводил на master-node1. В процессе установки был установлен golang и добавлен каталог go в $PATH следующей командой:
+
+    $ export PATH=$PATH:$(go env GOPATH)/bin
+
+Также для компиляции был установлен gojsontoyaml и jsonnet и снова ввел вышеуказанную команду.
+
+Настройки и конфигурацию приложений оставил по умолчанию. Далее выполнил сборку:
+
+    ./build.sh example.jsonnet
+
+Далее применил стек kube-prometheus:
+
+    $ kubectl apply --server-side -f manifests/setup
+    $ kubectl apply -f manifests/
+
+
 ---
 ### Установка и настройка CI/CD
 
