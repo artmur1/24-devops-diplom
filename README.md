@@ -236,11 +236,33 @@ https://www.runatlantis.io/docs/installation-guide.html
 
 Пользователя в github использвал текущего. На сайте https://www.browserling.com/tools/random-string сгенерировал Webhook Secret. Далее перешел в Deployment. Начал с выполнения инструкции Kubernetes Helm Chart. Отредактировал values.yaml. Внес свои данные user, token, secret, orgAllowlist. Остальные настройки в values.yaml оставил без изменеий:
 
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-5.png)
 
+values.yaml - https://github.com/artmur1/24-devops-diplom/blob/main/files/atlantis/values.yaml
 
+Установл helm. Запустил установку values.yaml:
 
+    helm install atlantis runatlantis/atlantis -f values.yaml
 
+Далее приступил к установке Kubernetes Manifests. Выполнил команды:
 
+    echo -n "yourtoken" > token
+    echo -n "yoursecret" > webhook-secret
+    kubectl create secret generic atlantis-vcs --from-file=token --from-file=webhook-secret
+
+Внес свои данные в Deployment Manifest:
+
+Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/files/atlantis/deployment.yaml
+
+Один под atlantis запустился, а второй в ожидании чего-то..
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-3.png)
+
+Описание пода в ожидании:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-4.png)
+
+Пробовал подключится к порту 4141 - ничего нет.
 
 ---
 ### Установка и настройка CI/CD
