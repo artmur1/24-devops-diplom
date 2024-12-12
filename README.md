@@ -166,6 +166,22 @@ meta.yml - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform
 1. Git репозиторий с тестовым приложением и Dockerfile.
 2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
 
+### Решение. Создание тестового приложения
+
+Создал отдельный git репозиторий https://github.com/artmur1/24-nginx
+
+nginx конфиг - https://github.com/artmur1/24-nginx/blob/main/nginx.conf
+
+статические данные - https://github.com/artmur1/24-nginx/blob/main/index.html
+
+Dockerfile - https://github.com/artmur1/24-nginx/blob/main/Dockerfile
+
+Получился примитивный Dockerfile. Собрал docker image. 
+
+Регистри с собранным docker image на DockerHub:
+
+    docker push artmur18/diplom-nginx:1.0.0
+
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
 
