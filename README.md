@@ -224,6 +224,13 @@ https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/customizin
     $ kubectl apply --server-side -f manifests/setup
     $ kubectl apply -f manifests/
 
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-1.png)
+
+Видно, что в k8s поднялись и работают новые поды: prometheus-operator, grafana, prometheus, alertmanager, node_exporter.
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/d-pro-1-2.png)
+
+Далее занялся деплоем и настройкой в кластере atlantis.
 
 ---
 ### Установка и настройка CI/CD
