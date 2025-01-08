@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'
+      - 'files/terraform/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'terraform/**'
+      - 'files/terraform/**'
   workflow_dispatch:
     inputs:
       apply:
@@ -40,14 +40,14 @@ jobs:
         terraform_version: "1.5.5"
 
     - name: Terraform Init
-      run: terraform -chdir=./terraform init
+      run: terraform -chdir=./files/terraform init
 
     - name: Terraform Format and Validate
-      run: terraform -chdir=./terraform validate
+      run: terraform -chdir=./files/terraform validate
 
     - name: Terraform Plan
       run: |
-        terraform -chdir=./terraform plan -input=false -out=tfplan \
+        terraform -chdir=./files/terraform plan -input=false -out=tfplan \
         -var="token=${{ secrets.YC_TOKEN }}" \
         -var="cloud_id=${{ secrets.YC_CLOUD_ID }}" \
         -var="folder_id=${{ secrets.YC_FOLDER_ID }}" \
@@ -55,4 +55,4 @@ jobs:
 
     - name: Terraform Apply (Manual Trigger)
       if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'true'
-      run: terraform -chdir=./terraform apply -input=false tfplan
+      run: terraform -chdir=./files/terraform apply -input=false tfplan
