@@ -11,6 +11,12 @@ on:
       - main
     paths:
       - 'terraform/**'
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Set to "true" to apply infrastructure changes'
+        required: false
+        default: 'false'
 
 jobs:
   terraform:
@@ -47,5 +53,6 @@ jobs:
         -var="folder_id=${{ secrets.YC_FOLDER_ID }}" \
         -var="ssh_public=${{ secrets.SSH_PUBLIC }}"
 
-    - name: Terraform Apply
+    - name: Terraform Apply (Manual Trigger)
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == 'true'
       run: terraform -chdir=./terraform apply -input=false tfplan
