@@ -1,6 +1,11 @@
 name: 'Terraform infrastructure'
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
   pull_request:
     branches:
       - main
