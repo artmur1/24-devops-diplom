@@ -6,7 +6,7 @@ locals {
   subnet_name_d     = "public-d-subnet"
   disk1_name       = "vm-disk-public"
   vm_lamp_name     = "vm-lamp"
-  folder_id        = "ваш id папки"
+#  folder_id        = "ваш id папки"
   platform_id      = "standard-v3"
   image_id         = "fd827b91d99psvq5fjit"
   vm_name          = "vm-1"
