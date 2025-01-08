@@ -28,3 +28,28 @@ variable "vm_resources" {
     }
   }
 }
+
+variable "token" {
+  type        = string
+  description = "OAuth-token; https://cloud.yandex.ru/docs/iam/concepts/authorization/oauth-token"
+}
+
+variable "cloud_id" {
+  type        = string
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
+}
+
+variable "folder_id" {
+  type        = string
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+}
+
+#variable "SSH_PRIVATE" {
+#  type        = string
+#  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+#}
+
+variable "ssh_public" {
+  type        = string
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+}

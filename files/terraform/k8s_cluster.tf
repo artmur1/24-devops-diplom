@@ -33,5 +33,7 @@ resource "yandex_compute_instance" "nat-instance" {
 
   metadata = {
     user-data = "${file("./meta.yml")}"
+    ssh-keys = "artem:${var.ssh_public}"
+    serial-port-enable = "1"
   }
 }
