@@ -264,6 +264,70 @@ Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/file
 
 Пробовал подключится к порту 4141 - ничего нет.
 
+#### Продожение выполнения пункта "Подготовка cистемы мониторинга и деплой приложения"
+
+При установке атлантис уперся в то, что для деплоя кластера нужен атлантис, для деплоя атлантиса нужен кластер. Потому дальнейшие работы по атлантису приостановил и решил деплоить кластер из github action. Через terraform снес старую инфраструктуру и развернул заново kubernetes cluster. На этот раз установил kubernetes версии 1.31.4.
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-k8s-1.png)
+
+Установку cистемы мониторинга решил производсть через helm. Для начала установил helm:
+
+    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+    sudo apt-get install apt-transport-https --yes
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+    sudo apt-get update
+    sudo apt-get install helm
+
+Добавил репозиторий prometheus-community и скачал файл с настройками prometheus:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-1.png)
+
+Запустил установку cистемы мониторинга с указанием файла с настройками:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-4.png)
+
+Видно, что сервисы и поды grafana, prometheus, alertmanager и node_exporter успешно запустились:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-5.png)
+
+Беру пароль из файла с настройками:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-6.png)
+
+Страничка с графаной успешно загружается. Ввожу логин и пароль:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-7.png)
+
+Успешно авторизовался, добавил метрики:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/helm-prometheus-8.png)
+
+Для развертывания тестового приложения в кластер написал deployment.yaml - https://github.com/artmur1/24-devops-diplom/blob/main/files/k8s/deployment.yaml
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-9.png)
+
+Создал namespace и запустил деплоймент:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-10.png)
+
+Подключился к поду, curl localhost возвращает содержимое index.html - приложение развернуто в кластере и работает!
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-11.png)
+
+Далее, чтобы приложение было доступно по внешнему адресу на определенном порту, написал service.yaml:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-12.png)
+
+Применил service.yaml. Теперь приложение доступно на внешнем порту 31030:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-13.png)
+
+Приложение успешно загрузилось на внешнем адресе!
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/test-prilogenie-14.png)
+
+
+
 ---
 ### Установка и настройка CI/CD
 
@@ -281,6 +345,30 @@ Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/file
 1. Интерфейс ci/cd сервиса доступен по http.
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
 3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
+
+### Решение. Установка и настройка CI/CD
+
+Выполнять настройки ci/cd системы для автоматической сборки docker image и деплоя приложения при изменении кода буду в GitHub Action. Внес в репозиторий https://github.com/artmur1/24-nginx данные для входа в учетную запись dockerhub. Также добавил данные для подключения к кластеру через kubectl:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-01.png)
+
+Написал ci-cd.yaml для сборки и отправки приложения в dockerhub 
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-02.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-03.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-04.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-05.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-06.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-07.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-08.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-09.png)
 
 ---
 ## Что необходимо для сдачи задания?
