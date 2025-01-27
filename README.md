@@ -352,7 +352,7 @@ Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/file
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-01.png)
 
-Написал ci-cd.yaml для автоматической сборки docker image и деплоя приложения:
+Написал ci-cd.yaml для автоматической сборки docker image и деплоя приложения - https://github.com/artmur1/24-nginx/blob/main/.github/workflows/ci-cd.yaml:
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-02.png)
 
