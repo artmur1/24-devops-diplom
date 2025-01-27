@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-prilogenie
+  namespace: netology
+  labels:
+    app: t-pril
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: t-pril
+  template:
+    metadata:
+      namespace: netology
+      labels:
+        app: t-pril
+    spec:
+      containers:
+      - name: test-prilogenie-site
+        image: artmur18/diplom-nginx:1.0.1
+        ports:
+        - containerPort: 80
