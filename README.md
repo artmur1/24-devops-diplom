@@ -352,21 +352,35 @@ Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/file
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-01.png)
 
-Написал ci-cd.yaml для сборки и отправки приложения в dockerhub 
+Написал ci-cd.yaml для автоматической сборки docker image и деплоя приложения:
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-02.png)
 
+Создал namespace netology:
+
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-03.png)
+
+Отредактировал index.html и написал в коммите комментарий v1.2.10 и отправил ветку main в репозиторий:
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-04.png)
 
+Автоматическая сборка docker image v1.2.10 и деплой приложения в кластер прошли успешно:
+
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-05.png)
+
+Отредактировал index.html прописав в коммите комментарий v1.2.11, и Deployment.yaml указав номер теге приложения v1.2.11. Отправил ветку main в репозиторий:
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-06.png)
 
+Автоматическая сборка docker image с новым тегом v1.2.11 и деплой приложения в кластер прошли успешно:
+
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-07.png)
 
+Образы на докерхабе:
+
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-08.png)
+
+Ссылка на action - https://github.com/artmur1/24-nginx/actions/runs/12995097915
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-09.png)
 
