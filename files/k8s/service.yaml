@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-test-prilogenie
+  namespace: netology
+spec:
+  selector:
+    app: t-pril
+  ports:
+    - name: service-t-prilogenie
+      protocol: TCP
+      port: 80
+      nodePort: 31030
+  type: NodePort
