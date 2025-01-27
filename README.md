@@ -56,17 +56,49 @@
 
 provider.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/provider.tf
 
-bucket.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/bucket.tf
+bucket.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform-bucket/bucket.tf
+
+variables.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform-bucket/variables.tf
+
+service_account.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform-bucket/service_account.tf
 
 infrastructure.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/infrastructure.tf
-
-service_account.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/service_account.tf
 
 locals.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/locals.tf
 
 variables.tf - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/variables.tf
 
 Стейт файл - https://github.com/artmur1/24-devops-diplom/blob/main/files/terraform/images/kitten1.jpg
+
+Убедился, что могу выполнить команды `terraform destroy` и `terraform apply` без дополнительных ручных действий.
+
+Далее настрою автоматическое развертывание данной инфраструктуры через Github Action. Для этого создал папку .github/workflows/ и в ней два файла: terraform-bucket.yml - для развертывания бакета и сервисного аккаунта, terraform-infrastructure.yml - для развертывания остальной инфраструктуры (ВМ, сети, подсети и пр.).
+
+terraform-bucket.yml - https://github.com/artmur1/24-devops-diplom/blob/main/.github/workflows/terraform-bucket.yml
+
+terraform-infrastructure.yml - https://github.com/artmur1/24-devops-diplom/blob/main/.github/workflows/terraform-infrastructure.yml
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-01.png)
+
+Также добавил секретные данные, которые будут передаваться при исполнении манифестов:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-02.png)
+
+Манифест выполняется при ручном запуске, а также при git push кода Terraform в main ветку репозитория. Результат выполнения манифестов:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-03.png)
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-04.png)
+
+ВМ успешно созданы:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-05.png)
+
+Бакет с содержимым создан:
+
+![](https://github.com/artmur1/24-devops-diplom/blob/main/img/oia-06.png)
+
+Вся необходимая инфраструктура развернута и работает.
 
 ---
 ### Создание Kubernetes кластера
@@ -368,7 +400,7 @@ Deployment Manifest - https://github.com/artmur1/24-devops-diplom/blob/main/file
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-05.png)
 
-Отредактировал index.html прописав в коммите комментарий v1.2.11, и Deployment.yaml указав номер теге приложения v1.2.11. Отправил ветку main в репозиторий:
+Отредактировал index.html прописав в коммите комментарий v1.2.11, и Deployment.yaml указав номер в теге приложения v1.2.11. Отправил ветку main в репозиторий:
 
 ![](https://github.com/artmur1/24-devops-diplom/blob/main/img/ci-cd-06.png)
 
